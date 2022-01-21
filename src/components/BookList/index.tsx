@@ -1,9 +1,11 @@
-import { Box, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useBookContext } from '../../context/BookContext';
+import BookCard from '../BookCard';
 
 type Book = {
+  bookId: string
   title: string,
   description: string,
   date: string,
@@ -12,35 +14,46 @@ type Book = {
 
 const BookList: React.FC = () => {
 
-  const { books } = useBookContext()
+  const { books, setBooks } = useBookContext()
 
-  const handleOnDragEnd = () => {
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
 
+    const items = Array.from(books);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setBooks(items);
   }
 
   return (
-    <Box>
+    <Box w='full' bg={useColorModeValue("gray.200", "gray.400")}>
+
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId='books'>
           {(provided) => (
-            <ul {...provided.droppableProps} ref={provided.innerRef}>
-              {books.map((book, id) => {
+            <Box {...provided.droppableProps} ref={provided.innerRef}>
+              {books.map((book, index) => {
                 return (
-                  <Draggable key={id} draggableId={id.toString()} index={id}>
+                  <Draggable key={book.bookId} draggableId={index.toString()} index={index}>
                     {(provided) => (
-                      <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        <Flex w='full' height='50px' bg={useColorModeValue("gray.200", "gray.400")}>
-                          <Heading>
-                            {book.title}
-                          </Heading>
-                          <Text>{book.description}</Text>
+                      <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                        <Flex w='full' >
+                          <BookCard
+                            bookId={book.bookId}
+                            title={book.title}
+                            description={book.description}
+                            date={book.date}
+                            genre={book.genre}
+                          />
                         </Flex>
-                      </li>
+                      </Box>
                     )}
                   </Draggable>
                 )
               })}
-            </ul>
+              {provided.placeholder}
+            </Box>
           )}
         </Droppable>
       </DragDropContext>

@@ -1,16 +1,17 @@
+import { Flex } from '@chakra-ui/react';
 import Head from 'next/head';
 import React from 'react';
 import BookList from '../src/components/BookList';
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <Flex width='100vw' >
       <Head>
         <title>Home</title>
       </Head>
 
       <BookList />
-    </div>
+    </Flex>
   )
 }
 

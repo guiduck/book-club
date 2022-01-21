@@ -1,6 +1,7 @@
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 
 type Book = {
+  bookId: string
   title: string,
   description: string,
   date: string,
@@ -20,36 +21,42 @@ export const BookProvider = ({ children }) => {
 
   const bookst = [
     {
+      bookId: '0',
       title: 'brave new world',
       description: 'cool distopy',
       date: '19/01/22',
       genre: 'scifi'
     },
     {
+      bookId: '1',
       title: 'brave new world',
       description: 'cool distopy',
       date: '19/01/22',
       genre: 'scifi'
     },
     {
+      bookId: '2',
       title: 'brave new world',
       description: 'cool distopy',
       date: '19/01/22',
       genre: 'scifi'
     },
     {
+      bookId: '3',
       title: 'brave new world',
       description: 'cool distopy',
       date: '19/01/22',
       genre: 'scifi'
     },
     {
+      bookId: '4',
       title: 'brave new world',
       description: 'cool distopy',
       date: '19/01/22',
       genre: 'scifi'
     },
     {
+      bookId: '5',
       title: 'brave new world',
       description: 'cool distopy',
       date: '19/01/22',
@@ -59,8 +66,7 @@ export const BookProvider = ({ children }) => {
 
   useEffect(() => {
     setBooks(bookst)
-  }, [books]);
-
+  }, []);
 
   return (
     <BookContext.Provider value={{ books, setBooks }}>
