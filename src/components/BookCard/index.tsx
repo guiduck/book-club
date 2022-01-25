@@ -2,20 +2,20 @@ import {
   Box,
   chakra,
   Flex,
-  Image,
   useColorModeValue,
   Accordion,
   AccordionButton,
   AccordionItem,
   AccordionIcon,
   AccordionPanel,
-  Button
+  Button,
+  Text
 } from '@chakra-ui/react';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useBookContext } from '../../context/BookContext';
 
 type Book = {
-  bookId: string,
+  _id: string,
   title: string,
   description: string,
   date: string,
@@ -23,18 +23,20 @@ type Book = {
 }
 
 const BookCard: React.FC<Book> = ({
-  bookId,
+  _id,
   title,
   description,
   date,
   genre
 }) => {
 
+  const { deleteBook } = useBookContext()
+
   const[descriptionState, setDescriptionState] = useState('flex');
 
-  // useEffect(() => {
-  //   setDescription(description)
-  // }, [description])
+  const handleDelete = () => {
+    deleteBook(_id)
+  }
 
   return (
     <Flex
@@ -132,16 +134,16 @@ const BookCard: React.FC<Book> = ({
             _focus={{
               bg: "red.600",
             }}
+            onClick={handleDelete}
           >
-            <Link href={`/Books/${bookId}`} >
-              <a>Details</a>
+            <Text >
+              <a>Delete</a>
 
-            </Link>
+            </Text>
 
           </Button>
         </Flex>
       </Box>
-
     </Flex>
   );
 }

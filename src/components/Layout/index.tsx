@@ -8,7 +8,7 @@ const Layout: React.FC = ({ children }) => {
 
   return (
     <Flex>
-      <Flex style={{position: 'absolute', right: 30}}>
+      <Flex style={{position: 'absolute', right: 20}}>
         <IconButton
           bg={useColorModeValue('gray.200', 'gray.700')}
           p={2}
